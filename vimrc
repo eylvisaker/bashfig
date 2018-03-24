@@ -1,4 +1,3 @@
-colorscheme torte
+colorscheme murphy
 
-source .vim/scripts/setcolors.vim
 
