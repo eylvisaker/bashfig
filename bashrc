@@ -19,3 +19,4 @@ parse_git_branch () {
 
 PS1="[\e[92;1m\u\e[0m@\e[96m\h\e[0m] \e[93;1m\$PWD\e[92;1m\$(parse_git_branch)\e[0m\nε "
 
+alias ll='ls -lA'
