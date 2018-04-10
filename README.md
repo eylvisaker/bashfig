@@ -1,7 +1,7 @@
 Bashfig
 =======
 
-Some fun configuration for bash and vim.
+A colorful configuration for bash and vim, intended for dark background.
 
 Run `./install.sh` to install bashfig.
 
