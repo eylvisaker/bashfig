@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -f .bashrc_system ]; then
-	source .bashrc_system
+if [ -f ~/.bashfig/system/.bashrc ]; then
+	source ~/.bashfig/system/.bashrc
 fi
 
 if [ -f .machine_profile ]; then
