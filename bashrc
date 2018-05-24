@@ -19,7 +19,11 @@ parse_git_branch () {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-PS1="[\e[92;1m\u\e[0m@\e[96m\h\e[0m] \e[93m\$PWD\e[92;1m\$(parse_git_branch)\e[0m\nε "
+clean_pwd() {
+  echo $PWD | sed -e "s:^$HOME:~:"
+}
+
+PS1="[\e[92;1m\u\e[0m] \e[96m\h\e[0m:\e[93m\$(clean_pwd)\e[92;1m\$(parse_git_branch)\e[0m\nε "
 
 # Colorize gcc compilation errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
