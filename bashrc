@@ -21,7 +21,7 @@ parse_git_branch () {
     echo ""
   else
     local color="\e[32m"   # if working directory is clean
-    local untracked=`git ls-files -o 2> /dev/null | wc -l`
+    local untracked=`git ls-files -o --exclude-standard 2> /dev/null | wc -l`
     local modified=`git ls-files -m 2> /dev/null | wc -l`
     local staged=`git diff --name-only --cached 2> /dev/null | wc -l`
     local unmerged=`git diff --name-only --diff-filter=U 2> /dev/null | wc -l`
