@@ -17,6 +17,7 @@ To install:
 git checkout https://github.com/eylvisaker/bashfig
 cd ~/bashfig
 ./install.sh
+source ~/.bashrc
 ````
 
 To uninstall:
