@@ -16,14 +16,41 @@ export LS_COLORS
 
 # Customize and colorize the prompt
 parse_git_branch () {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+  if [[ -z $branch ]]; then
+    echo ""
+  else
+    local color="\e[32m"   # if working directory is clean
+    local untracked=`git ls-files -o 2> /dev/null | wc -l`
+    local modified=`git ls-files -m 2> /dev/null | wc -l`
+    local staged=`git diff --name-only --cached 2> /dev/null | wc -l`
+    local unmerged=`git diff --name-only --diff-filter=U 2> /dev/null | wc -l`
+    local ahead_behind=`git status -sb | grep '\[' | cut -d "[" -f2 | cut -d "]" -f1`
+    local message=""
+
+    if [[ ! -z $ahead_behind ]]; then color="\e[96m"; message=$ahead_behind; fi
+    if [[ $untracked > 0 ]];     then color="\e[92m"; message="$untracked untracked"; fi
+    if [[ $modified > 0 ]];      then color="\e[93m"; message="$modified modified"; fi
+    if [[ $staged > 0 ]];        then color="\e[95m"; message="$staged staged"; fi
+    if [[ $unmerged > 0 ]];      then color="\e[91m"; message="$unmerged unmerged"; fi
+
+    if [[ -z $message ]]; then
+      echo -e " $color($branch)"
+    else
+      echo -e " $color($branch) [$message]"
+    fi
+  fi
 }
 
 clean_pwd() {
   echo $PWD | sed -e "s:^$HOME:~:"
 }
 
-PS1="[\e[92;1m\u\e[0m] \e[96m\h\e[0m:\e[93m\$(clean_pwd)\e[92;1m\$(parse_git_branch)\e[0m\nε "
+set_bash_prompt() {
+  PS1="[\e[92;1m\u\e[0m] \e[96m\h\e[0m:\e[93m\$(clean_pwd)\e[92;1m\$(parse_git_branch)\e[0m\nε "
+}
+
+PROMPT_COMMAND=set_bash_prompt
 
 # Colorize gcc compilation errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
