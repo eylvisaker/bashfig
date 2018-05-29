@@ -20,7 +20,7 @@ parse_git_branch () {
   if [[ -z $branch ]]; then
     echo ""
   else
-    local color="\e[32m"   # if working directory is clean
+    local color="\e[94m"   # if working directory is clean
     local untracked=`git ls-files -o --exclude-standard 2> /dev/null | wc -l`
     local modified=`git ls-files -m 2> /dev/null | wc -l`
     local staged=`git diff --name-only --cached 2> /dev/null | wc -l`
@@ -28,10 +28,10 @@ parse_git_branch () {
     local ahead_behind=`git status -sb | grep '\[' | cut -d "[" -f2 | cut -d "]" -f1`
     local message=""
 
-    if [[ ! -z $ahead_behind ]]; then color="\e[96m"; message="\e[96m$ahead_behind"; fi
-    if [[ $untracked > 0 ]];     then color="\e[32m"; message="\e[32m$untracked untracked $message"; fi
+    if [[ ! -z $ahead_behind ]]; then color="\e[92m"; message="\e[92m$ahead_behind"; fi
+    if [[ $untracked > 0 ]];     then color="\e[94m"; message="\e[94m$untracked untracked $message"; fi
     if [[ $modified > 0 ]];      then color="\e[95m"; message="\e[95m$modified modified $message"; fi
-    if [[ $staged > 0 ]];        then color="\e[94m"; message="\e[94m$staged staged $message"; fi
+    if [[ $staged > 0 ]];        then color="\e[96m"; message="\e[96m$staged staged $message"; fi
     if [[ $unmerged > 0 ]];      then color="\e[91m"; message="\e[91m$unmerged unmerged $message"; fi
 
     if [[ -z $message ]]; then
