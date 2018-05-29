@@ -28,16 +28,17 @@ parse_git_branch () {
     local ahead_behind=`git status -sb | grep '\[' | cut -d "[" -f2 | cut -d "]" -f1`
     local message=""
 
-    if [[ ! -z $ahead_behind ]]; then color="\e[96m"; message=$ahead_behind; fi
-    if [[ $untracked > 0 ]];     then color="\e[92m"; message="$untracked untracked"; fi
-    if [[ $modified > 0 ]];      then color="\e[93m"; message="$modified modified"; fi
-    if [[ $staged > 0 ]];        then color="\e[95m"; message="$staged staged"; fi
-    if [[ $unmerged > 0 ]];      then color="\e[91m"; message="$unmerged unmerged"; fi
+    if [[ ! -z $ahead_behind ]]; then color="\e[96m"; message="\e[96m$ahead_behind"; fi
+    if [[ $untracked > 0 ]];     then color="\e[92m"; message="\e[92m$untracked untracked $message"; fi
+    if [[ $modified > 0 ]];      then color="\e[93m"; message="\e[93m$modified modified $message"; fi
+    if [[ $staged > 0 ]];        then color="\e[95m"; message="\e[95m$staged staged $message"; fi
+    if [[ $unmerged > 0 ]];      then color="\e[91m"; message="\e[91m$unmerged unmerged $message"; fi
 
     if [[ -z $message ]]; then
       echo -e " $color($branch)"
     else
-      echo -e " $color($branch) [$message]"
+      local trimmed_message="${message%"${message##*[![:space:]]}"}" 
+      echo -e " $color($branch) \e[0;1m[$trimmed_message\e[0;1m]"
     fi
   fi
 }
