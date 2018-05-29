@@ -26,9 +26,11 @@ parse_git_branch () {
     local staged=`git diff --name-only --cached 2> /dev/null | wc -l`
     local unmerged=`git diff --name-only --diff-filter=U 2> /dev/null | wc -l`
     local ahead_behind=`git status -sb | grep '\[' | cut -d "[" -f2 | cut -d "]" -f1`
+    local published=`git status -sb | grep -e '\.\.\..'`
     local message=""
 
     if [[ ! -z $ahead_behind ]]; then color="\e[92m"; message="\e[92m$ahead_behind"; fi
+    if [[ -z $published ]];    then color="\e[92m"; message="\e[92munpublished $message"; fi
     if [[ $untracked > 0 ]];     then color="\e[94m"; message="\e[94m$untracked untracked $message"; fi
     if [[ $modified > 0 ]];      then color="\e[95m"; message="\e[95m$modified modified $message"; fi
     if [[ $staged > 0 ]];        then color="\e[96m"; message="\e[96m$staged staged $message"; fi
@@ -38,7 +40,7 @@ parse_git_branch () {
       echo -e " $color($branch)"
     else
       local trimmed_message="${message%"${message##*[![:space:]]}"}" 
-      echo -e " $color($branch) \e[0;1m[$trimmed_message\e[0;1m]"
+      echo -e " $color($branch) \e[0m[$trimmed_message\e[0m]"
     fi
   fi
 }
