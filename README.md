@@ -31,5 +31,9 @@ cd ~
 Tips
 ----
 
-If the terminal prompt looks weird because it's not handling UTF-8 characters correctly, try running `dpkg-reconfigure locales` to fix it.
+If the terminal prompt looks weird because it's not handling UTF-8 characters correctly, to fix it, try this command
+````
+dpkg-reconfigure locales
+````
+
 
