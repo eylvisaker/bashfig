@@ -50,7 +50,7 @@ clean_pwd() {
 }
 
 set_bash_prompt() {
-  PS1="[\e[92;1m\u\e[0m] \e[96m\h\e[0m:\e[93m\$(clean_pwd)\e[92;1m\$(parse_git_branch)\e[0m\n\e[93;1m$\e[0m "
+  PS1="[\[\e[92\];1m\u\[\e[0m\]] \[\e[96m\]\h\[\e[0m\]:\[\e[93m\]\[\$(clean_pwd)\]\[\e[92;1m\]\[\$(parse_git_branch)\]\[\e[0m\]\n\[\e[93;1m\]$\[\e[0m\] "
 }
 
 PROMPT_COMMAND=set_bash_prompt
